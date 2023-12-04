@@ -5,7 +5,7 @@ import tempfile
 
 from PIL import Image
 
-from modules.upscaler import Upscaler, UpscalerData, LANCZOS
+from modules.upscaler import Upscaler, UpscalerData
 
 class UpscalerTopazPhotoAI(Upscaler):
     scalers = []
@@ -28,11 +28,12 @@ class UpscalerTopazPhotoAI(Upscaler):
             return img
 
         upscaled = Image.open(fp.name)
-        resized = upscaled.resize((int(upscaled.width * self.scale), int(upscaled.height * self.scale)), resample=LANCZOS)
+        new_img = upscaled.copy()
+
         upscaled.close()
         os.remove(fp.name)
 
-        return resized
+        return new_img
 
     def load_model(self, _):
         pass
